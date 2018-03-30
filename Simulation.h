@@ -1,5 +1,6 @@
 #include "Customer.h"
-#include "Queue.h" 
+#include <queue>
+
 #include <ctime>
 #include <iostream>
 using namespace std;
