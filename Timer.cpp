@@ -4,23 +4,23 @@
 // Default constructor
 Timer::Timer()
 {
-	minutes = 0;
+	seconds = 0;
 }
 
 // Set minutes to the passed value
-void Timer::setMinutes(Timer::value_type m)
+void Timer::setSeconds(Timer::value_type s)
 {
-	assert(m >= 0);
-	minutes = m;
+	assert(s >= 0);
+	seconds = s;
 }
 
 void Timer::tick()
 {
-	minutes--;
+	seconds--;
 }
 
 Timer::value_type Timer::timeRemaining() const
-// Return the number of minutes remaning in the simulation
+// Return the number of minutes remaining in the simulation
 {
-	return minutes;
+	return seconds;
 }
