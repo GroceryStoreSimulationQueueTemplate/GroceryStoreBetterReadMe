@@ -1,3 +1,6 @@
+#ifndef CUSTOMER_H
+#define CUSTOMER_H
+
 #include "Timer.h"
 #include <iostream>
 using namespace std;
@@ -21,3 +24,7 @@ private:
 	value_type arrivalTime; // Time the customer arrived
 	value_type serviceTime; // Time the customer is serviced
 };
+
+
+#endif /* CUSTOMER_H */
+
