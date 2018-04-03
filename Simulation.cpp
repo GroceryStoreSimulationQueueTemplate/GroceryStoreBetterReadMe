@@ -21,13 +21,11 @@ Simulation::Simulation()
 	cout << "Please enter the number of cashiers: " << endl;
 	cin >> numCashiers;
         
-        // Create an instance of all cashiers 
-        allCashiers = new queue<Customer>[numCashiers];
 
-	// Correct number of cashiers
+	// Add new queues to vector 
 	for ( int i = 0; i < numCashiers; i++ )
 	{
-		allCashiers[i] = *new queue<Customer>;
+                allCashiers.push_back( queue<Customer>( ) );
 	}
 
         // Get inputs for simulation
@@ -37,10 +35,9 @@ Simulation::Simulation()
         // Set the countdown timer
 	myTimer.setSeconds( lengthOfSimulation );
         
+
         
-        // Initialize the service percent.
-        // The maximum is 5 cashiers and adds up to 100 percent.
-	servicePercent = new int[MAX]; 
+     
 
         // Set the service percent to the correct percent which is 20 for each
         // cashier.
@@ -71,17 +68,17 @@ Simulation::Simulation()
 	// Use current time as seed for random generator.
         // TO-DO:
         // This is a weak random number generator; it is not useful for security purposes.
-        srand( time( 0 ) );
+        //srand( time( 0 ) );
 }
 
 Simulation::~Simulation()
 {
-	for( int i = 0; i < numCashiers - 1; i++ )
+	for( int i = 0; i < numCashiers; i++ )
 	{
-		delete &allCashiers[i];
+		delete & allCashiers[i];
 	}
 
-	delete[] allCashiers;
+	allCashiers.clear();
 	delete[] servicePercent;
 }
 
@@ -89,6 +86,8 @@ void Simulation::startSimulation()
 // Deletes all dynamically created elements of allCashiers[].
 // Deletes dynamically created member arrays.
 {
+        // TO-DO: I got an infinite loop here because the timeRemaining is always > 0.
+        // Needed to find a way to use the tick() method.
 	while ( myTimer.timeRemaining() > 0 )
 	{
             // Go through each cashier and run the service function which will 
@@ -96,13 +95,19 @@ void Simulation::startSimulation()
 
 		for ( int i = 0; i < numCashiers; i++ )
 		{
+                        customersCheckoutAndEnterShortest();
 			if ( !allCashiers[i].empty( ) )
 			{
+                            
+                                
+                                
+                            
                                 // Get the remaining service time of the customer in the front of the line.
 				int remainingServiceTime = allCashiers[i].front().getServiceTime();
 				service( remainingServiceTime, i );
 			}
 		}
+                myTimer.tick();
 	}
 }
 
@@ -154,7 +159,7 @@ void Simulation::customersCheckoutAndEnterShortest()
 		// A new customer is ready to get in line.
 		// Create random service time.
 
-		int r = rand() % 100;
+		int r = rand() % 100; // r in the range 0 to 99
 		int serviceTime = 0;
 		int randomServiceTime = servicePercent[serviceTime];
 
@@ -177,18 +182,26 @@ void Simulation::customersCheckoutAndEnterShortest()
 		customersRemaining++;
 
 		int seconds = 9999999;
+                
+                
 		int shortestLine = 0;
+                              
+                
+                // Find the shortest line.
 		for ( int i = 0; i < numCashiers; i++ )
 		{
+                        // For the first time, allCashiers[i].size() should return 0.
 			if ( allCashiers[i].size() < seconds )
 			{
 				seconds = allCashiers[i].size();
 				shortestLine = i;
 			}
 		}
-
-		// A new customer is added to the shortest line.
+                
+                // A new customer is added to the shortest line.
 		allCashiers[shortestLine].push(newCustomer);
+
+		
 	}
 
 
