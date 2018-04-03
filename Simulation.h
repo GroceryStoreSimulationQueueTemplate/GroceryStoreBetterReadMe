@@ -3,6 +3,7 @@
 
 
 #include "Customer.h"
+#include <vector>
 #include <queue> // Provides the queue template class
 
 #include <ctime>
@@ -30,10 +31,9 @@ public:
 
 private:
 	// Inputs
-        int     *servicePercent; // pointer to an integer
-	int     lengthOfSimulation;
 	double  arrivalRate;
         int     numCashiers; // numbers of cashiers, set at runtime
+        int     lengthOfSimulation;
 	
 	// Tracking variables
 	int totalServiceTime;
@@ -50,8 +50,14 @@ private:
 	// Countdown timer
 	Timer myTimer;
 
-	// Dynamic array of queues that store customers
-	queue<Customer> *allCashiers; // pointer to an queue of Customer
+        // Declare 5 lines of Customers using queue template.
+        // Vector of queues of an Customer object.
+        vector<queue<Customer>> allCashiers; // customer lines
+      
+        
+        int servicePercent[5];
+        
+        
 };
 
 
