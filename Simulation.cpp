@@ -15,7 +15,7 @@ Simulation::Simulation()
 	avgCashierIdleTime          = 0;
 	
 	// Get inputs for simulation
-	cout << "Please enter the average arrival rate of customers in number per second: " << endl;
+	cout << "Please enter the average arrival rate of customers in number per minute: " << endl;
 	cin >> arrivalRate;
 
 	cout << "Please enter the number of cashiers: " << endl;
@@ -29,7 +29,7 @@ Simulation::Simulation()
 	}
 
         // Get inputs for simulation
-	cout << "Please enter the length of time to run the simulation in seconds: " << endl;
+	cout << "Please enter the length of time to run the simulation in minutes: " << endl;
 	cin >> lengthOfSimulation;
         
         // Set the countdown timer
@@ -56,7 +56,7 @@ Simulation::Simulation()
 		sum = 0;
 		for ( int i = 0; i < MAX; i++ )
 		{
-			cout << " <= " << i + 1 << " second. ";   
+			cout << " <= " << i + 1 << " minute. ";   
                         cin >> percent;
 			servicePercent[i] = percent;
 			sum += percent;
@@ -74,7 +74,7 @@ Simulation::~Simulation()
 	}
 
 	allCashiers.clear();
-	delete[] servicePercent;
+
 }
 
 void Simulation::startSimulation()
@@ -161,6 +161,8 @@ void Simulation::customersCheckoutAndEnterShortest()
 		int serviceTime = 0;
 		int randomServiceTime = servicePercent[serviceTime];
 
+                // Generate random service time so when r is greater than the random service time.
+                // Customers get served.
 		while ( r > randomServiceTime )
 		{
 			randomServiceTime += servicePercent[serviceTime];
@@ -179,6 +181,7 @@ void Simulation::customersCheckoutAndEnterShortest()
 		totalNumberOfCustomers++;
 		customersRemaining++;
 
+                // Assign a really big number so that it runs through for the first time.
 		int seconds = 9999999;
                 
                 
@@ -259,10 +262,14 @@ void Simulation::customersCheckoutAndEnterShortest()
 void Simulation::display(ostream &out)
 {
 
-	cout << "\nTotal number of customers: "     << totalNumberOfCustomers << endl;
-	cout << "\nTotal service time: "            << totalServiceTime << endl;
-	cout << "\nTotal customer waiting time: "   << totalCustomerWaitingTime << endl;
-	cout << "\nTotal cashier processing time: " << totalCashierIdleTime << endl;
+        cout << "\nTotal length of simulation:                                    "     << lengthOfSimulation          << " minutes.";
+        cout << "\nAverage arrival rate of customers in number per minute:        "     << arrivalRate                 << " customer per minute.";
+	cout << "\nTotal number of customers = lengthOfSimulation * arrivalRate = "     << totalNumberOfCustomers      << " customers.";
+        cout << "\nTotal number of cashiers:                                      "     << numCashiers                 << " cashiers."<< endl;
+
+	cout << "\nTotal service time:          "        << totalServiceTime            << " minutes.";
+	cout << "\nTotal customer waiting time: "        << totalCustomerWaitingTime    << " minutes.";
+	cout << "\nTotal cashier idle time:     "        << totalCashierIdleTime        << " minutes." << endl;
 
 
 	avgCustomerServiceTime = ( double ) totalServiceTime / totalNumberOfCustomers;
@@ -270,8 +277,8 @@ void Simulation::display(ostream &out)
 	avgCashierIdleTime     = ( double ) totalCashierIdleTime / numCashiers;
         
         
-	cout << "\nThe average customer service time was: " << avgCustomerServiceTime << " seconds" << endl;
-	cout << "\nThe average customer waiting time was: " << avgCustomerWaitingTime << " seconds" << endl;
-        cout << "\nThe average cashier idle time was: "     << avgCashierIdleTime << " seconds" << endl;
+	cout << "\nThe average customer service time = totalServiceTime / totalNumberOfCustomers = " << avgCustomerServiceTime   << " minutes";
+	cout << "\nThe average customer waiting time = totalCustomerWaitingTime / totalNumberOfCustomers = " << avgCustomerWaitingTime   << " minutes";
+        cout << "\nThe average cashier idle time = totalCashierIdleTime / numCashiers = "     << avgCashierIdleTime       << " minutes" << endl;
 	
 }
