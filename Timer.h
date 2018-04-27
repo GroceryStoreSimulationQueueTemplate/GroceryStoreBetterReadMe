@@ -6,7 +6,7 @@ using namespace std;
 
 /******************************************************************
  * Timer class keeps track of time in this Simulation.
- * The "second" time unit is used in this Simulation.
+ * The "minute" time unit is used in this Simulation.
  *****************************************************************/
 class Timer
 {
@@ -19,9 +19,10 @@ public:
 	void tick();
 	value_type timeRemaining() const;
 private:
-	value_type seconds;
+	value_type minutes;
 };
 
 
 
 #endif /* TIMER_H */
+
