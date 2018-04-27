@@ -6,8 +6,8 @@ using namespace std;
 int main() {
     
     Simulation s;
-    
     s.startSimulation();
+
    
     return 0;
 }
