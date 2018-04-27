@@ -27,7 +27,7 @@ public:
 	void startSimulation();
 	void service(value_type & busyTimeRemaining, value_type cashier);
 	void customersCheckoutAndEnterShortest();
-	void display(ostream & out);
+	void display(ostream &out);
 
 private:
 	// Inputs
