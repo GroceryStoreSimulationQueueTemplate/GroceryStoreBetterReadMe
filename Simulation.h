@@ -31,16 +31,16 @@ public:
 
 private:
 	// Inputs
-	double  arrivalRate;
+	double  arrivalRate; // the average arrival rate of customers in number per minute
         int     numCashiers; // numbers of cashiers, set at runtime
         int     lengthOfSimulation;
 	
 	// Tracking variables
-	int totalServiceTime;
-	int totalCustomerWaitingTime;
-	int totalCashierIdleTime;
-	int totalNumberOfCustomers;
-	int customersRemaining;
+	int totalServiceTime; // numbers of minutes customers were served
+	int totalCustomerWaitingTime; // numbers of minutes customers waiting to be served
+	int totalCashierIdleTime; // numbers of minutes cashiers had idle time
+	int totalNumberOfCustomers; // numbers of customers came to check out
+	int customersRemaining; // numbers of customers still need to be served
 
 	// Outputs
 	double avgCustomerServiceTime;
