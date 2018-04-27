@@ -64,11 +64,6 @@ Simulation::Simulation()
 		}
 	}
 
-	// Initialize random number generator.
-	// Use current time as seed for random generator.
-        // TO-DO:
-        // This is a weak random number generator; it is not useful for security purposes.
-        //srand( time( 0 ) );
 }
 
 Simulation::~Simulation()
@@ -86,8 +81,7 @@ void Simulation::startSimulation()
 // Deletes all dynamically created elements of allCashiers[].
 // Deletes dynamically created member arrays.
 {
-        // TO-DO: I got an infinite loop here because the timeRemaining is always > 0.
-        // Needed to find a way to use the tick() method.
+
 	while ( myTimer.timeRemaining() > 0 )
 	{
             // Go through each cashier and run the service function which will 
@@ -95,7 +89,7 @@ void Simulation::startSimulation()
 
 		for ( int i = 0; i < numCashiers; i++ )
 		{
-                        customersCheckoutAndEnterShortest();
+                        // If there are still cashiers free to service customers.
 			if ( !allCashiers[i].empty( ) )
 			{
                             
@@ -105,10 +99,14 @@ void Simulation::startSimulation()
                                 // Get the remaining service time of the customer in the front of the line.
 				int remainingServiceTime = allCashiers[i].front().getServiceTime();
 				service( remainingServiceTime, i );
-			}
+			} else {
+                            totalCashierIdleTime++;
+                        }
 		}
+                customersCheckoutAndEnterShortest();
                 myTimer.tick();
 	}
+        display(cout);
 }
 
 void Simulation::service( Simulation::value_type & busyTimeRemaining, Simulation::value_type cashier )
@@ -258,7 +256,7 @@ void Simulation::customersCheckoutAndEnterShortest()
 
 // Displays the average customer service and wait time 
 // as well as the average cashier serving time.
-void Simulation::display( ostream & out )
+void Simulation::display(ostream &out)
 {
 
 	cout << "\nTotal number of customers: "     << totalNumberOfCustomers << endl;
@@ -268,12 +266,12 @@ void Simulation::display( ostream & out )
 
 
 	avgCustomerServiceTime = ( double ) totalServiceTime / totalNumberOfCustomers;
-	avgCustomerWaitingTime = ( double ) totalCustomerWaitingTime / totalNumberOfCustomers;
+	avgCustomerWaitingTime = ( double ) totalCustomerWaitingTime / totalNumberOfCustomers;        
 	avgCashierIdleTime     = ( double ) totalCashierIdleTime / numCashiers;
-
-
-	cout << "\nThe average customer service time was: " << avgCustomerServiceTime << "minutes";
-	cout << "\nThe average customer waiting time was: " << avgCustomerWaitingTime << " minutes";
-	cout << "\nThe average cashier idle time was: "     << avgCashierIdleTime << " minutes";
-
+        
+        
+	cout << "\nThe average customer service time was: " << avgCustomerServiceTime << " seconds" << endl;
+	cout << "\nThe average customer waiting time was: " << avgCustomerWaitingTime << " seconds" << endl;
+        cout << "\nThe average cashier idle time was: "     << avgCashierIdleTime << " seconds" << endl;
+	
 }
