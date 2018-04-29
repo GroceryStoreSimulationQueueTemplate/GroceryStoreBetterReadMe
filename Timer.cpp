@@ -8,7 +8,7 @@ Timer::Timer()
 }
 
 // Set minutes to the passed value
-void Timer::setSeconds(Timer::value_type s)
+void Timer::setTime(Timer::value_type s)
 {
 	assert(s >= 0);
 	minutes = s;
