@@ -25,7 +25,7 @@ Simulation::Simulation()
 	// Add new queues to vector 
 	for ( int i = 0; i < numCashiers; i++ )
 	{
-                allCashiers.push_back( queue<Customer>( ) );
+                allCustomers.push_back( queue<Customer>( ) );
 	}
 
         // Get inputs for simulation
@@ -72,14 +72,14 @@ Simulation::~Simulation()
 {
 	for( int i = 0; i < numCashiers; i++ )
 	{
-		delete & allCashiers[i];
+		delete & allCustomers[i];
 	}
-	allCashiers.clear();
+	allCustomers.clear();
 }
 
 void Simulation::startSimulation()
 {
-
+    // Not end of the simulation. Continue to serve customers.
 	while ( myTimer.timeRemaining() > 0 )
 	{
             // Go through each cashier and run the service function which will 
@@ -87,15 +87,11 @@ void Simulation::startSimulation()
 
 		for ( int i = 0; i < numCashiers; i++ )
 		{
-                        // If there are still cashiers free to service customers.
-			if ( !allCashiers[i].empty( ) )
+                    // If there are no more customers.
+			if ( !allCustomers[i].empty( ) )
 			{
-                            
-                                
-                                
-                            
-                                // Get the remaining service time of the customer in the front of the line.
-				int remainingServiceTime = allCashiers[i].front().getServiceTime();
+                            // Get the remaining service time of the customer in the front of the line.
+				int remainingServiceTime = allCustomers[i].front().getServiceTime();
 				service( remainingServiceTime, i );
 			} else {
                             totalCashierIdleTime++;
@@ -115,22 +111,22 @@ void Simulation::service( Simulation::value_type & busyTimeRemaining, Simulation
 	if ( busyTimeRemaining > 0 )
 	{
 		busyTimeRemaining--;
-		allCashiers[cashier].front().setServiceTime( busyTimeRemaining );
+		allCustomers[cashier].front().setServiceTime( busyTimeRemaining );
 
 		// Add the waiting time of the customers in line to the total.
-		totalCustomerWaitingTime += allCashiers[cashier].size() - 1;
+		totalCustomerWaitingTime += allCustomers[cashier].size() - 1;
 
 		return;
 	}
 	else
 	{
-		if ( !allCashiers[cashier].empty() ) // Check to see if this cashier are available 
+		if ( !allCustomers[cashier].empty() ) // Check to see if this cashier are available 
 		{
-			int arrivalTime = allCashiers[cashier].front().getArrivalTime();
-			allCashiers[cashier].pop(); // Done. Let the customer go.
-			if ( !allCashiers[cashier].empty() )
+			int arrivalTime = allCustomers[cashier].front().getArrivalTime();
+			allCustomers[cashier].pop(); // Done. Let the customer go.
+			if ( !allCustomers[cashier].empty() )
 			{
-				Customer nextCustomer = allCashiers[cashier].front();
+				Customer nextCustomer = allCustomers[cashier].front();
 				busyTimeRemaining = nextCustomer.getServiceTime();
 			}
 			customersRemaining--;
@@ -190,15 +186,15 @@ void Simulation::customersCheckoutAndEnterShortest()
 		for ( int i = 0; i < numCashiers; i++ )
 		{
                         // For the first time, allCashiers[i].size() should return 0.
-			if ( allCashiers[i].size() < seconds )
+			if ( allCustomers[i].size() < seconds )
 			{
-				seconds = allCashiers[i].size();
+				seconds = allCustomers[i].size();
 				shortestLine = i;
 			}
 		}
                 
                 // A new customer is added to the shortest line.
-		allCashiers[shortestLine].push(newCustomer);
+		allCustomers[shortestLine].push(newCustomer);
 
 		
 	}
@@ -242,15 +238,15 @@ void Simulation::customersCheckoutAndEnterShortest()
 
 			for ( int i = 0; i < numCashiers; i++ )
 			{
-				if ( allCashiers[i].size() < seconds )
+				if ( allCustomers[i].size() < seconds )
 				{
-					seconds = allCashiers[i].size();
+					seconds = allCustomers[i].size();
 					shortestLine = i;
 				}
 			}
 
 			// A new customer is added to the shortest line.
-			allCashiers[shortestLine].push(newCustomer);
+			allCustomers[shortestLine].push(newCustomer);
 		}
 	}
 }
