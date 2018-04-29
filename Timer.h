@@ -15,7 +15,7 @@ public:
 	typedef std::size_t size_type;
 
 	Timer();
-	void setSeconds(value_type s); // Set seconds to the passed value
+	void setTime(value_type s); // Set minutes to the passed value
 	void tick();
 	value_type timeRemaining() const;
 private:
