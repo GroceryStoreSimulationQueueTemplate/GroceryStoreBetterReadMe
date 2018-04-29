@@ -33,7 +33,7 @@ Simulation::Simulation()
 	cin >> lengthOfSimulation;
         
         // Set the countdown timer
-	myTimer.setSeconds( lengthOfSimulation );
+	myTimer.setTime( lengthOfSimulation );
         
 
         
@@ -277,8 +277,8 @@ void Simulation::display(ostream &out)
 	avgCashierIdleTime     = ( double ) totalCashierIdleTime / numCashiers;
         
         
-	cout << "\nThe average customer service time = totalServiceTime / totalNumberOfCustomers = " << avgCustomerServiceTime   << " minutes";
+	cout << "\nThe average customer service time = totalServiceTime / totalNumberOfCustomers         = " << avgCustomerServiceTime   << " minutes";
 	cout << "\nThe average customer waiting time = totalCustomerWaitingTime / totalNumberOfCustomers = " << avgCustomerWaitingTime   << " minutes";
-        cout << "\nThe average cashier idle time = totalCashierIdleTime / numCashiers = "     << avgCashierIdleTime       << " minutes" << endl;
+        cout << "\nThe average cashier idle time     = totalCashierIdleTime / numCashiers                = " << avgCashierIdleTime       << " minutes" << endl;
 	
 }
