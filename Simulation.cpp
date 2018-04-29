@@ -87,10 +87,10 @@ void Simulation::startSimulation()
 
 		for ( int i = 0; i < numCashiers; i++ )
 		{
-                    // If there are still more customers.
+                        // If there are still more customers.
 			if ( !allCustomers[i].empty( ) )
 			{
-                            // Get the remaining service time of the customer in the front of the line.
+                                // Get the remaining service time of the customer in the front of the line.
 				int remainingServiceTime = allCustomers[i].front().getServiceTime();
 				service( remainingServiceTime, i );
 			} else {
@@ -122,7 +122,7 @@ void Simulation::service( Simulation::value_type & busyTimeRemaining, Simulation
 	{
 		if ( !allCustomers[cashier].empty() ) // Check to see if this cashier are available 
 		{
-			int arrivalTime = allCustomers[cashier].front().getArrivalTime();
+	
 			allCustomers[cashier].pop(); // Done. Let the customer go.
 			if ( !allCustomers[cashier].empty() )
 			{
@@ -177,8 +177,6 @@ void Simulation::customersCheckoutAndEnterShortest()
 
                 // Assign a really big number so that it runs through for the first time.
 		int seconds = 9999999;
-                
-                
 		int shortestLine = 0;
                               
                 
@@ -195,10 +193,7 @@ void Simulation::customersCheckoutAndEnterShortest()
                 
                 // A new customer is added to the shortest line.
 		allCustomers[shortestLine].push(newCustomer);
-
-		
 	}
-
 
 	// -------------------------------------------------------------------
 	// CASE 2: arrivalRate < 1
@@ -258,7 +253,7 @@ void Simulation::display(ostream &out)
 
         cout << "\nTotal length of simulation:                                    "     << lengthOfSimulation          << " minutes.";
         cout << "\nAverage arrival rate of customers in number per minute:        "     << arrivalRate                 << " customer per minute.";
-	cout << "\nTotal number of customers = lengthOfSimulation * arrivalRate = "     << totalNumberOfCustomers      << " customers.";
+	cout << "\nTotal number of customers are served:                          "     << totalNumberOfCustomers      << " customers.";
         cout << "\nTotal number of cashiers:                                      "     << numCashiers                 << " cashiers."<< endl;
 
 	cout << "\nTotal service time:          "        << totalServiceTime            << " minutes.";
