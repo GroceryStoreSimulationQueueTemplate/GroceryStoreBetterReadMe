@@ -87,7 +87,7 @@ void Simulation::startSimulation()
 
 		for ( int i = 0; i < numCashiers; i++ )
 		{
-                    // If there are no more customers.
+                    // If there are still more customers.
 			if ( !allCustomers[i].empty( ) )
 			{
                             // Get the remaining service time of the customer in the front of the line.
