@@ -38,7 +38,7 @@ Simulation::Simulation()
 
         
      
-
+        // Used for customers entered random to check out.
         // Set the service percent to the correct percent which is 20 for each
         // cashier.
 	int percent = 0;
@@ -67,19 +67,17 @@ Simulation::Simulation()
 }
 
 Simulation::~Simulation()
+// Deletes all dynamically created elements of allCashiers[].
+// Deletes dynamically created member arrays.
 {
 	for( int i = 0; i < numCashiers; i++ )
 	{
 		delete & allCashiers[i];
 	}
-
 	allCashiers.clear();
-
 }
 
 void Simulation::startSimulation()
-// Deletes all dynamically created elements of allCashiers[].
-// Deletes dynamically created member arrays.
 {
 
 	while ( myTimer.timeRemaining() > 0 )
