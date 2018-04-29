@@ -52,7 +52,7 @@ private:
 
         // Declare 5 lines of Customers using queue template.
         // Vector of queues of an Customer object.
-        vector<queue<Customer>> allCashiers; 
+        vector<queue<Customer>> allCustomers; 
       
         
         int servicePercent[5];
