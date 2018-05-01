@@ -6,13 +6,21 @@
 #include <vector>
 #include <queue> // Provides the queue template class
 
-#include <ctime>
+
 #include <iostream>
 using namespace std;
 
-/************************************
-* Simulation.h grocery store.
-************************************/
+
+/**
+    Simulation.h
+    Purpose: Create a header for Simulation class.
+
+    @author Xuan Do
+    @author Jason Pagotaisidro
+    @version 1.1 05/01/18 
+*/
+
+
 const int MAX = 5; // a number of cashiers
 
 class Simulation
@@ -21,13 +29,13 @@ public:
         typedef int value_type;
 	typedef std::size_t size_type;
         
-	Simulation(); // Default Constructor
-	~Simulation(); // Default Destructor.
+	Simulation( ); // Default Constructor
+	~Simulation( ); // Default Destructor.
 
-	void startSimulation();
-	void service(value_type & busyTimeRemaining, value_type cashier);
-	void customersCheckoutAndEnterShortest();
-	void display(ostream &out);
+	void startSimulation( );
+	void service( value_type & busyTimeRemaining, value_type cashier );
+	void customersCheckoutAndEnterShortest( );
+	void display( ostream &out );
 
 private:
 	// Inputs
@@ -54,10 +62,8 @@ private:
         // Vector of queues of an Customer object.
         vector<queue<Customer>> allCustomers; 
       
-        
+        // Create random service time.
         int servicePercent[5];
-        
-        
 };
 
 
