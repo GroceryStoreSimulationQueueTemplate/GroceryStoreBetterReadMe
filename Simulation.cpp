@@ -1,5 +1,17 @@
 #include "Simulation.h"
 
+/**
+    Simulation.cpp
+    Purpose: 
+    Use a vector of queues to simulate the lines. 
+    Assume that there are five cashier lines at the grocery store. 
+    Customers enter randomly to check out, and then enter the shortest line.
+
+    @author Xuan Do
+    @author Jason Pagotaisidro
+    @version 1.1 05/01/18 
+*/
+
 Simulation::Simulation()
 {
 	// Tracking variables
@@ -34,9 +46,7 @@ Simulation::Simulation()
         
         // Set the countdown timer
 	myTimer.setTime( lengthOfSimulation );
-        
-
-        
+       
      
         // Used for customers entered random to check out.
         // Set the service percent to the correct percent which is 20 for each
@@ -91,44 +101,48 @@ void Simulation::startSimulation()
 			if ( !allCustomers[i].empty( ) )
 			{
                                 // Get the remaining service time of the customer in the front of the line.
-				int remainingServiceTime = allCustomers[i].front().getServiceTime();
+				int remainingServiceTime = allCustomers[i].front( ).getServiceTime( );
 				service( remainingServiceTime, i );
 			} else {
                             totalCashierIdleTime++;
                         }
 		}
-                customersCheckoutAndEnterShortest();
-                myTimer.tick();
+                customersCheckoutAndEnterShortest( );
+                myTimer.tick( );
 	}
         display(cout);
 }
 
-void Simulation::service( Simulation::value_type & busyTimeRemaining, Simulation::value_type cashier )
+void Simulation::service( Simulation::value_type & busyTimeRemaining, Simulation::value_type customer )
 // Pass the remaining service time of the customer in the front of the line
-// as well as the cashier of the customer is the line for.
+// as well as the customer is in the line.
 {
-	// The front customer still has more service time to process.
+	// Check if the front customer still needs to wait.
+        // This loop is used to calculate the total customer waiting time.
 	if ( busyTimeRemaining > 0 )
 	{
 		busyTimeRemaining--;
-		allCustomers[cashier].front().setServiceTime( busyTimeRemaining );
+		allCustomers[customer].front( ).setServiceTime( busyTimeRemaining );
 
 		// Add the waiting time of the customers in line to the total.
-		totalCustomerWaitingTime += allCustomers[cashier].size() - 1;
+		totalCustomerWaitingTime += allCustomers[customer].size( ) - 1;
 
 		return;
 	}
 	else
 	{
-		if ( !allCustomers[cashier].empty() ) // Check to see if this cashier are available 
+		if ( !allCustomers[customer].empty( ) ) // Check to see if a customer is available 
 		{
-	
-			allCustomers[cashier].pop(); // Done. Let the customer go.
-			if ( !allCustomers[cashier].empty() )
+			allCustomers[customer].pop( ); // Let the customer already be served to go first.
+                        
+                        // Check to see if we have a next customer 
+			if ( !allCustomers[customer].empty( ) )
 			{
-				Customer nextCustomer = allCustomers[cashier].front();
-				busyTimeRemaining = nextCustomer.getServiceTime();
+				Customer nextCustomer = allCustomers[customer].front( );
+				busyTimeRemaining = nextCustomer.getServiceTime( );
 			}
+                        
+                        // Decrease customers by 1
 			customersRemaining--;
 		}
 	}
@@ -169,9 +183,9 @@ void Simulation::customersCheckoutAndEnterShortest()
 		// add the customer to the shortest line of a cashier.
 
 		// Customers enter randomly to check out, 
-		// and then enter the shortest line
+		// and then enter the shortest line.
 
-		Customer newCustomer(myTimer, serviceTime + 1);
+		Customer newCustomer( myTimer, serviceTime + 1 );
 		totalNumberOfCustomers++;
 		customersRemaining++;
 
@@ -183,16 +197,17 @@ void Simulation::customersCheckoutAndEnterShortest()
                 // Find the shortest line.
 		for ( int i = 0; i < numCashiers; i++ )
 		{
-                        // For the first time, allCashiers[i].size() should return 0.
+                        // For the first time, allCustomers[i].size() should return 0, 
+                        // because there is no customers assigned to the line yet.
 			if ( allCustomers[i].size() < seconds )
 			{
-				seconds = allCustomers[i].size();
+				seconds = allCustomers[i].size( );
 				shortestLine = i;
 			}
 		}
                 
                 // A new customer is added to the shortest line.
-		allCustomers[shortestLine].push(newCustomer);
+		allCustomers[shortestLine].push( newCustomer );
 	}
 
 	// -------------------------------------------------------------------
@@ -221,6 +236,8 @@ void Simulation::customersCheckoutAndEnterShortest()
 				serviceTime++;
 			}
 
+                        // One more customer is served, increase the total
+                        // service time by 1.
 			totalServiceTime += serviceTime + 1;
 
 			// Customers enter randomly to check out, and then enter the shortest line.
@@ -228,27 +245,31 @@ void Simulation::customersCheckoutAndEnterShortest()
 			totalNumberOfCustomers++;
 			customersRemaining++;
 
+                        // Assign a really big number so that it runs through for the first time.
 			int seconds = 9999999;
 			int shortestLine = 0;
 
+                        // Search for the shortest line 
 			for ( int i = 0; i < numCashiers; i++ )
 			{
+                                // For the first time, allCustomers[i].size() should return 0, 
+                                // because there is no customers assigned to the line yet.
 				if ( allCustomers[i].size() < seconds )
 				{
-					seconds = allCustomers[i].size();
+					seconds = allCustomers[i].size( );
 					shortestLine = i;
 				}
 			}
 
 			// A new customer is added to the shortest line.
-			allCustomers[shortestLine].push(newCustomer);
+			allCustomers[shortestLine].push( newCustomer );
 		}
 	}
 }
 
-// Displays the average customer service and wait time 
+// Displays the average customer service and the waiting time 
 // as well as the average cashier serving time.
-void Simulation::display(ostream &out)
+void Simulation::display( ostream &out )
 {
 
         cout << "\nTotal length of simulation:                                    "     << lengthOfSimulation          << " minutes.";
