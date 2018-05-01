@@ -1,6 +1,16 @@
 #include "Timer.h"
 #include <cassert>
 
+/**
+    Timer.cpp
+    Purpose: Timer class keeps track of time in this Simulation.
+    The "minute" time unit is used in this Simulation.
+
+    @author Xuan Do
+    @author Jason Pagotaisidro
+    @version 1.1 05/01/18 
+*/
+
 // Default constructor
 Timer::Timer()
 {
@@ -14,6 +24,7 @@ void Timer::setTime(Timer::value_type s)
 	minutes = s;
 }
 
+// Decrease the Timer by 1 minute
 void Timer::tick()
 {
 	minutes--;
